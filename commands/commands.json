@@ -1,0 +1,197 @@
+[
+    {
+      "options": [],
+      "name": "money_average",
+      "description": "全ユーザーの所持金と平均所持金を計算して表示します"
+    },
+    {
+      "options": [],
+      "name": "money_job",
+      "description": "仕事をしてお金を稼ぎます"
+    },
+    {
+      "options": [],
+      "name": "money_now",
+      "description": "所持しているお金を表示します"
+    },
+    {
+      "options": [],
+      "name": "music_leave",
+      "description": "ボイスチャンネルから離脱します"
+    },
+    {
+      "options": [],
+      "name": "music_list",
+      "description": "現在のキューを表示します"
+    },
+    {
+      "options": [],
+      "name": "music_loop",
+      "description": "現在再生中の曲をループします"
+    },
+    {
+      "options": [],
+      "name": "music_pause",
+      "description": "再生中の音楽を一時停止します"
+    },
+    {
+      "options": [
+        {
+          "type": 3,
+          "name": "song",
+          "description": "URLまたは曲名を指定します",
+          "required": true
+        }
+      ],
+      "name": "music_play",
+      "description": "ボイスチャンネルで音楽を再生します"
+    },
+    {
+      "options": [],
+      "name": "music_now",
+      "description": "現在再生中の曲のリンクを表示します"
+    },
+    {
+      "options": [],
+      "name": "music_repause",
+      "description": "一時停止している音楽を再開します"
+    },
+    {
+      "options": [],
+      "name": "music_skip",
+      "description": "再生中の音楽をスキップして次の曲を再生します"
+    },
+    {
+      "options": [
+        {
+          "type": 4,
+          "name": "level",
+          "description": "音量のレベル (1-100)",
+          "required": true
+        }
+      ],
+      "name": "music_volume",
+      "description": "音楽の音量を調整します"
+    },
+    {
+      "options": [
+        {
+          "type": 1,
+          "name": "user",
+          "description": "ユーザーをブラックリストに追加します",
+          "options": [
+            {
+              "name": "target",
+              "description": "ブラックリストに追加するユーザー",
+              "required": true,
+              "type": 6
+            },
+            {
+              "type": 3,
+              "name": "serverid",
+              "description": "対象のサーバーID",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "server",
+          "description": "サーバーをブラックリストに追加します",
+          "options": [
+            {
+              "type": 3,
+              "name": "serverid",
+              "description": "ブラックリストに追加するサーバーID",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "name": "blacklist",
+      "description": "ユーザーまたはサーバーをブラックリストに追加します"
+    },
+    {
+      "options": [
+        {
+          "type": 1,
+          "name": "user",
+          "description": "ユーザーをブラックリストから削除します",
+          "options": [
+            {
+              "name": "target",
+              "description": "ブラックリストから削除するユーザー",
+              "required": true,
+              "type": 6
+            },
+            {
+              "type": 3,
+              "name": "serverid",
+              "description": "対象のサーバーID",
+              "required": true
+            }
+          ]
+        },
+        {
+          "type": 1,
+          "name": "server",
+          "description": "サーバーをブラックリストから削除します",
+          "options": [
+            {
+              "type": 3,
+              "name": "serverid",
+              "description": "ブラックリストから削除するサーバーID",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "name": "removeblacklist",
+      "description": "ユーザーまたはサーバーをブラックリストから削除します"
+    },
+    {
+      "options": [],
+      "name": "admin_db_show",
+      "description": "ブラックリストのデータベース内容を表示します"
+    },
+    {
+      "options": [
+        {
+          "name": "user",
+          "description": "アイコンを表示するユーザー",
+          "required": false,
+          "type": 6
+        }
+      ],
+      "name": "avatar",
+      "description": "指定したユーザーのアイコンを表示します"
+    },
+    {
+      "options": [],
+      "name": "channel",
+      "description": "Check the guild ID of the voice channel"
+    },
+    {
+      "options": [],
+      "name": "help",
+      "description": "Displays available commands and their descriptions."
+    },
+    {
+      "options": [
+        {
+          "type": 3,
+          "name": "内容",
+          "description": "報告内容を入力してください",
+          "required": true
+        },
+        {
+          "type": 3,
+          "name": "画像",
+          "description": "画像を送付（URLのみ）",
+          "required": false
+        }
+      ],
+      "name": "report",
+      "description": "指定された内容を報告します"
+    }
+  ]
