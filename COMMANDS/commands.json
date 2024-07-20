@@ -1,0 +1,534 @@
+[
+  {
+    "options": [],
+    "name": "money_average",
+    "description": "全ユーザーの所持金と平均所持金を計算して表示します"
+  },
+  {
+    "options": [],
+    "name": "money_job",
+    "description": "仕事をしてお金を稼ぎます"
+  },
+  {
+    "options": [
+      {
+        "name": "user",
+        "description": "お金を表示したいユーザー",
+        "required": false,
+        "type": 6
+      }
+    ],
+    "name": "money_now",
+    "description": "所持しているお金を表示します"
+  },
+  {
+    "options": [],
+    "name": "music_leave",
+    "description": "ボイスチャンネルから離脱します"
+  },
+  {
+    "options": [],
+    "name": "music_list",
+    "description": "現在のキューを表示します"
+  },
+  {
+    "options": [],
+    "name": "music_loop",
+    "description": "現在再生中の曲をループします"
+  },
+  {
+    "options": [],
+    "name": "music_pause",
+    "description": "再生中の音楽を一時停止します"
+  },
+  {
+    "options": [
+      {
+        "type": 3,
+        "name": "song",
+        "description": "URLまたは曲名を指定します",
+        "required": true
+      }
+    ],
+    "name": "music_play",
+    "description": "ボイスチャンネルで音楽を再生します"
+  },
+  {
+    "options": [],
+    "name": "music_now",
+    "description": "現在再生中の曲のリンクを表示します"
+  },
+  {
+    "options": [],
+    "name": "music_repause",
+    "description": "一時停止している音楽を再開します"
+  },
+  {
+    "options": [],
+    "name": "music_skip",
+    "description": "再生中の音楽をスキップして次の曲を再生します"
+  },
+  {
+    "options": [
+      {
+        "type": 4,
+        "name": "level",
+        "description": "音量のレベル (1-100)",
+        "required": true
+      }
+    ],
+    "name": "music_volume",
+    "description": "音楽の音量を調整します"
+  },
+  {
+    "options": [
+      {
+        "name": "user",
+        "description": "アイコンを表示するユーザー",
+        "required": false,
+        "type": 6
+      }
+    ],
+    "name": "server_avatar",
+    "description": "指定したユーザーのアイコンを表示します"
+  },
+  {
+    "options": [
+      {
+        "type": 4,
+        "name": "数",
+        "description": "削除するメッセージの数",
+        "required": true
+      },
+      {
+        "name": "ユーザー",
+        "description": "メッセージを削除する特定のユーザー",
+        "required": false,
+        "type": 6
+      }
+    ],
+    "name": "server_clear",
+    "description": "指定された数のメッセージを削除します。"
+  },
+  {
+    "options": [
+      {
+        "name": "channel",
+        "description": "メッセージ数をカウントするチャンネル",
+        "required": false,
+        "type": 7
+      }
+    ],
+    "name": "server_messagecount",
+    "description": "指定されたチャンネルのメッセージ数を表示します。"
+  },
+  {
+    "options": [],
+    "name": "serverinfo",
+    "description": "サーバーの情報を表示します。"
+  },
+  {
+    "options": [
+      {
+        "type": 4,
+        "name": "seconds",
+        "description": "低速モードの秒数",
+        "required": true
+      },
+      {
+        "choices": [
+          {
+            "name": "ここ",
+            "value": "here"
+          },
+          {
+            "name": "全て",
+            "value": "all"
+          }
+        ],
+        "type": 3,
+        "name": "scope",
+        "description": "適用範囲を選択してください。",
+        "required": true
+      }
+    ],
+    "name": "server_slow",
+    "description": "チャンネルの低速モードを設定します。"
+  },
+  {
+    "options": [
+      {
+        "name": "channel",
+        "description": "メッセージリンクを取得するチャンネル",
+        "required": false,
+        "type": 7
+      }
+    ],
+    "name": "server_topmessage",
+    "description": "指定されたチャンネルの一番上のメッセージリンクを送信します。"
+  },
+  {
+    "options": [
+      {
+        "choices": [
+          {
+            "name": "ここ",
+            "value": "here"
+          },
+          {
+            "name": "すべて",
+            "value": "all"
+          }
+        ],
+        "type": 3,
+        "name": "scope",
+        "description": "解除する対象を選択してください。",
+        "required": true
+      }
+    ],
+    "name": "server_unslow",
+    "description": "チャンネルの低速モードを解除します。"
+  },
+  {
+    "options": [
+      {
+        "name": "target",
+        "description": "情報を表示するユーザー",
+        "required": true,
+        "type": 6
+      }
+    ],
+    "name": "server_userinfo",
+    "description": "ユーザーの情報を表示します。"
+  },
+  {
+    "options": [
+      {
+        "type": 1,
+        "name": "user",
+        "description": "ユーザーをブラックリストに追加します",
+        "options": [
+          {
+            "name": "target",
+            "description": "ブラックリストに追加するユーザー",
+            "required": true,
+            "type": 6
+          },
+          {
+            "type": 3,
+            "name": "serverid",
+            "description": "対象のサーバーID",
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "server",
+        "description": "サーバーをブラックリストに追加します",
+        "options": [
+          {
+            "type": 3,
+            "name": "serverid",
+            "description": "ブラックリストに追加するサーバーID",
+            "required": true
+          }
+        ]
+      }
+    ],
+    "name": "admin_blacklist",
+    "description": "ユーザーまたはサーバーをブラックリストに追加します"
+  },
+  {
+    "options": [],
+    "name": "admin_show_db",
+    "description": "すべてのデータベースの内容を表示します。管理者のみ使用可能です"
+  },
+  {
+    "options": [],
+    "name": "server_list",
+    "description": "Botが導入されているサーバー名とサーバーIDを表示します。"
+  },
+  {
+    "options": [
+      {
+        "type": 1,
+        "name": "user",
+        "description": "ユーザーをブラックリストから削除します",
+        "options": [
+          {
+            "name": "target",
+            "description": "ブラックリストから削除するユーザー",
+            "required": true,
+            "type": 6
+          },
+          {
+            "type": 3,
+            "name": "serverid",
+            "description": "対象のサーバーID",
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "server",
+        "description": "サーバーをブラックリストから削除します",
+        "options": [
+          {
+            "type": 3,
+            "name": "serverid",
+            "description": "ブラックリストから削除するサーバーID",
+            "required": true
+          }
+        ]
+      }
+    ],
+    "name": "admin_removeblacklist",
+    "description": "ユーザーまたはサーバーをブラックリストから削除します"
+  },
+  {
+    "options": [],
+    "name": "admin_db_show",
+    "description": "ブラックリストのデータベース内容を表示します"
+  },
+  {
+    "options": [],
+    "name": "bot_help",
+    "description": "ヘルプを表示します"
+  },
+  {
+    "options": [
+      {
+        "type": 3,
+        "name": "内容",
+        "description": "報告内容を入力してください",
+        "required": true
+      },
+      {
+        "type": 3,
+        "name": "画像",
+        "description": "画像を送付（URLのみ）",
+        "required": false
+      }
+    ],
+    "name": "bot_report",
+    "description": "指定された内容を報告します"
+  },
+  {
+    "options": [
+      {
+        "type": 1,
+        "name": "main",
+        "description": "メインの都道府県の天気を取得します",
+        "options": [
+          {
+            "choices": [
+              {
+                "name": "北海道",
+                "value": "北海道"
+              },
+              {
+                "name": "青森",
+                "value": "青森"
+              },
+              {
+                "name": "岩手",
+                "value": "岩手"
+              },
+              {
+                "name": "宮城",
+                "value": "宮城"
+              },
+              {
+                "name": "秋田",
+                "value": "秋田"
+              },
+              {
+                "name": "山形",
+                "value": "山形"
+              },
+              {
+                "name": "福島",
+                "value": "福島"
+              },
+              {
+                "name": "茨城",
+                "value": "茨城"
+              },
+              {
+                "name": "栃木",
+                "value": "栃木"
+              },
+              {
+                "name": "群馬",
+                "value": "群馬"
+              },
+              {
+                "name": "埼玉",
+                "value": "埼玉"
+              },
+              {
+                "name": "千葉",
+                "value": "千葉"
+              },
+              {
+                "name": "東京",
+                "value": "東京"
+              },
+              {
+                "name": "神奈川",
+                "value": "神奈川"
+              },
+              {
+                "name": "新潟",
+                "value": "新潟"
+              },
+              {
+                "name": "富山",
+                "value": "富山"
+              },
+              {
+                "name": "石川",
+                "value": "石川"
+              },
+              {
+                "name": "福井",
+                "value": "福井"
+              },
+              {
+                "name": "長野",
+                "value": "長野"
+              },
+              {
+                "name": "岐阜",
+                "value": "岐阜"
+              },
+              {
+                "name": "静岡",
+                "value": "静岡"
+              },
+              {
+                "name": "愛知",
+                "value": "愛知"
+              },
+              {
+                "name": "三重",
+                "value": "三重"
+              },
+              {
+                "name": "滋賀",
+                "value": "滋賀"
+              },
+              {
+                "name": "京都",
+                "value": "京都"
+              }
+            ],
+            "type": 3,
+            "name": "都道府県",
+            "description": "都道府県を選択してください",
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "other",
+        "description": "その他の都道府県の天気を取得します",
+        "options": [
+          {
+            "choices": [
+              {
+                "name": "大阪",
+                "value": "大阪"
+              },
+              {
+                "name": "兵庫",
+                "value": "兵庫"
+              },
+              {
+                "name": "奈良",
+                "value": "奈良"
+              },
+              {
+                "name": "和歌山",
+                "value": "和歌山"
+              },
+              {
+                "name": "鳥取",
+                "value": "鳥取"
+              },
+              {
+                "name": "島根",
+                "value": "島根"
+              },
+              {
+                "name": "岡山",
+                "value": "岡山"
+              },
+              {
+                "name": "広島",
+                "value": "広島"
+              },
+              {
+                "name": "山口",
+                "value": "山口"
+              },
+              {
+                "name": "徳島",
+                "value": "徳島"
+              },
+              {
+                "name": "香川",
+                "value": "香川"
+              },
+              {
+                "name": "愛媛",
+                "value": "愛媛"
+              },
+              {
+                "name": "高知",
+                "value": "高知"
+              },
+              {
+                "name": "佐賀",
+                "value": "佐賀"
+              },
+              {
+                "name": "長崎",
+                "value": "長崎"
+              },
+              {
+                "name": "熊本",
+                "value": "熊本"
+              },
+              {
+                "name": "大分",
+                "value": "大分"
+              },
+              {
+                "name": "宮崎",
+                "value": "宮崎"
+              },
+              {
+                "name": "鹿児島",
+                "value": "鹿児島"
+              },
+              {
+                "name": "沖縄",
+                "value": "沖縄"
+              }
+            ],
+            "type": 3,
+            "name": "都道府県",
+            "description": "都道府県を選択してください",
+            "required": true
+          }
+        ]
+      }
+    ],
+    "name": "weather",
+    "description": "県の天気を取得します(市ではありません)"
+  }
+]

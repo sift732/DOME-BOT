@@ -59,32 +59,7 @@ module.exports = {
                 player.play();
 
                 // 再生が開始されたら経過時間の更新を開始する
-                startUpdatingElapsedTime(player, track, interaction);
-            }
-
-            const totalDuration = track.duration;
-
-            if (player.queue.size < 1) {
-                const embed = new MessageEmbed()
-                    .setColor('GREEN')
-                    .setAuthor({ name: '再生中', iconURL: 'https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/play.gif' })
-                    .setDescription(`再生中：**[${track.title}](${track.uri})**`)
-                    .addFields(
-                        { name: 'アップロード者', value: track.author || '不明', inline: true },
-                        {
-                            name: '経過時間(5秒ごと) / 動画の長さ',
-                            value: `0:00:00 / ${formatDuration(totalDuration)}`,
-                            inline: true
-                        }
-                    );
-
-                if (track.thumbnail) {
-                    embed.setThumbnail(track.thumbnail);
-                } else {
-                    embed.setThumbnail('https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/speaker.gif');
-                }
-
-                const message = await interaction.reply({ embeds: [embed], fetchReply: true });
+                const message = await interaction.reply({ embeds: [createEmbed(track)], fetchReply: true });
                 player.nowPlayingMessage = { id: message.id, channelId: message.channel.id, guildId: interaction.guildId };
 
                 // 開始時間を記録し、定期的に経過時間を更新する処理を設定
@@ -96,11 +71,11 @@ module.exports = {
                     const elapsedDuration = formatDuration(elapsedTime);
 
                     // 経過時間を埋め込みに反映
-                    embed.fields[1].value = `${elapsedDuration} / ${formatDuration(totalDuration)}`;
-                    message.edit({ embeds: [embed] });
+                    const updatedEmbed = createEmbed(track, elapsedDuration);
+                    message.edit({ embeds: [updatedEmbed] });
 
                     // 再生が終了したら終了
-                    if (elapsedTime >= totalDuration) {
+                    if (elapsedTime >= track.duration) {
                         clearInterval(interval);
                     }
                 };
@@ -139,8 +114,9 @@ module.exports = {
     },
 };
 
-async function startUpdatingElapsedTime(player, track, interaction) {
-    const embed = new MessageEmbed()
+// Embed 作成関数
+function createEmbed(track, elapsedDuration = '0:00:00') {
+    return new MessageEmbed()
         .setColor('GREEN')
         .setAuthor({ name: '再生中', iconURL: 'https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/play.gif' })
         .setDescription(`再生中：**[${track.title}](${track.uri})**`)
@@ -148,20 +124,14 @@ async function startUpdatingElapsedTime(player, track, interaction) {
             { name: 'アップロード者', value: track.author || '不明', inline: true },
             {
                 name: '経過時間(5秒ごと) / 動画の長さ',
-                value: `0:00:00 / ${formatDuration(track.duration)}`,
+                value: `${elapsedDuration} / ${formatDuration(track.duration)}`,
                 inline: true
             }
-        );
+        )
+        .setThumbnail(track.thumbnail || 'https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/speaker.gif');
+}
 
-    if (track.thumbnail) {
-        embed.setThumbnail(track.thumbnail);
-    } else {
-        embed.setThumbnail('https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/speaker.gif');
-    }
-
-    const message = await interaction.fetchReply();
-    player.nowPlayingMessage = { id: message.id, channelId: message.channel.id, guildId: interaction.guildId };
-
+async function startUpdatingElapsedTime(player, track, interaction) {
     const startTime = Date.now();
     const updateInterval = 5000;
 
@@ -169,8 +139,8 @@ async function startUpdatingElapsedTime(player, track, interaction) {
         const elapsedTime = Date.now() - startTime;
         const elapsedDuration = formatDuration(elapsedTime);
 
-        embed.fields[1].value = `${elapsedDuration} / ${formatDuration(track.duration)}`;
-        message.edit({ embeds: [embed] });
+        const updatedEmbed = createEmbed(track, elapsedDuration);
+        player.nowPlayingMessage.channel.send({ embeds: [updatedEmbed] });
 
         if (elapsedTime >= track.duration) {
             clearInterval(interval);
