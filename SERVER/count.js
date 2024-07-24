@@ -6,12 +6,12 @@ module.exports = {
         .setName('server_messagecount')
         .setDescription('指定されたチャンネルのメッセージ数を表示します。')
         .addChannelOption(option =>
-            option.setName('channel')
+            option.setName('チャンネル')
                 .setDescription('メッセージ数をカウントするチャンネル')
                 .setRequired(false)
         ),
     async execute(interaction) {
-        const channel = interaction.options.getChannel('channel') || interaction.channel;
+        const channel = interaction.options.getChannel('チャンネル') || interaction.channel;
 
         if (channel.type === 'GUILD_VOICE') {
             const embed = new MessageEmbed()

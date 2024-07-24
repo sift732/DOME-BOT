@@ -6,12 +6,12 @@ module.exports = {
         .setName('server_topmessage')
         .setDescription('指定されたチャンネルの一番上のメッセージリンクを送信します。')
         .addChannelOption(option =>
-            option.setName('channel')
+            option.setName('チャンネル')
                 .setDescription('メッセージリンクを取得するチャンネル')
                 .setRequired(false)
         ),
     async execute(interaction) {
-        const channel = interaction.options.getChannel('channel') || interaction.channel;
+        const channel = interaction.options.getChannel('チャンネル') || interaction.channel;
 
         if (channel.type === 'GUILD_VOICE') {
             const embed = new MessageEmbed()

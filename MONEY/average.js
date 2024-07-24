@@ -41,8 +41,10 @@ module.exports = {
             const embed = new MessageEmbed()
                 .setColor('#0099ff')
                 .setTitle('全ユーザーの所持金と平均所持金')
-                .addField('全ユーザーの所持金合計', `${totalMoney}`, false) // フィールドの説明を非表示にする
-                .addField('平均所持金', `${averageMoney.toFixed(2)}`, false); // フィールドの説明を非表示にする
+                .setDescription('全ユーザーの所持金に関する統計情報です。')
+                .addField('全ユーザーの所持金合計', `${totalMoney} ユニット`, true) // 'true'で横並びに表示
+                .addField('平均所持金', `${averageMoney.toFixed(2)} ユニット`, true) // 'true'で横並びに表示
+                .setTimestamp(); // 現在の日時を追加
 
             interaction.followUp({ embeds: [embed] });
         } catch (error) {

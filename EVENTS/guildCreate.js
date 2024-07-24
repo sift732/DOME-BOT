@@ -15,7 +15,7 @@ module.exports = {
     const embed = new MessageEmbed()
       .setTitle('導入通知')
       .setDescription(`**${guild.name}** に導入してくれてありがとうございます！`)
-      .addField('製作者', 'rezulo4649', true)
+      .addField('製作者', 'hokkaido100_49355', true)
       .addField('> <👀> 注意事項', '``/admin``から始まるコマンドは製作者のみ実行可能です。ご注意ください。')
       .addField('> <⏯️> 音楽', '``/music``から始まるコマンドは音楽関連の機能です。サーバーのみんなと音楽を共有しては？')
       .addField('> <💰> お金', '``/money``から始まるコマンドはお金関連のコマンドです。今後に登場する機能に使えるかも？')
@@ -28,12 +28,12 @@ module.exports = {
     const supportButton = new MessageButton()
       .setStyle('LINK')
       .setLabel('サポートサーバーへ')
-      .setURL('https://discord.gg/kMw6fVWasa');
+      .setURL('https://discord.gg/mWBwH2yyAF');
 
     const inviteButton = new MessageButton()
       .setStyle('LINK')
       .setLabel('BOTを招待する')
-      .setURL('https://discord.com/oauth2/authorize?client_id=1250848150873182369&permissions=8&response_type=code&redirect_uri=+https%3A%2F%2Fdiscord.gg%2Fm9GgUEnbRA&integration_type=0&scope=identify+guilds+email+connections+bot+applications.commands');
+      .setURL('https://discord.com/oauth2/authorize?client_id=1264166436612472832&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.gg%2FmWBwH2yyAF&integration_type=0&scope=applications.commands+guilds+bot');
 
     const actionRow = new MessageActionRow()
       .addComponents(supportButton, inviteButton);

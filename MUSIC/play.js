@@ -1,21 +1,32 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const { formatDuration } = require('../utils');
+
+let nowPlayingMessages = new Map();
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('music_play')
         .setDescription('ボイスチャンネルで音楽を再生します')
         .addStringOption(option =>
-            option.setName('song')
+            option.setName('リクエスト')
                 .setDescription('URLまたは曲名を指定します')
                 .setRequired(true)
         ),
 
     async execute(interaction) {
-        const query = interaction.options.getString('song');
+        const query = interaction.options.getString('リクエスト');
         const guildId = interaction.guildId;
+        const member = interaction.member;
 
+        if (!member.voice.channel) {
+            const embed = new MessageEmbed()
+                .setColor('RED')
+                .setTitle('エラー')
+                .setDescription('ボイスチャンネルに参加してからコマンドを実行してください。');
+            return interaction.reply({ embeds: [embed] });
+        }
+
+        const voiceChannel = member.voice.channel;
         const manager = interaction.client.manager;
 
         try {
@@ -25,7 +36,7 @@ module.exports = {
             if (!results || results.loadType === 'NO_MATCHES') {
                 const embed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle('Error')
+                    .setTitle('エラー')
                     .setDescription('指定されたURLまたは曲名で音楽が見つかりませんでした');
                 return interaction.reply({ embeds: [embed] });
             }
@@ -35,7 +46,7 @@ module.exports = {
             if (!player) {
                 player = manager.create({
                     guild: guildId,
-                    voiceChannel: interaction.member.voice.channel.id,
+                    voiceChannel: voiceChannel.id,
                     textChannel: interaction.channel.id,
                     volume: 50,
                 });
@@ -48,8 +59,16 @@ module.exports = {
             if (!track) {
                 const embed = new MessageEmbed()
                     .setColor('RED')
-                    .setTitle('Error')
+                    .setTitle('エラー')
                     .setDescription('検索結果に有効なトラックが見つかりませんでした');
+                return interaction.reply({ embeds: [embed] });
+            }
+
+            if (player.playing && player.queue.size) {
+                const embed = new MessageEmbed()
+                    .setColor('YELLOW')
+                    .setTitle('情報')
+                    .setDescription('現在再生中の曲があります。新しい曲をキューに追加するには、/music_addqueue コマンドを使用してください。');
                 return interaction.reply({ embeds: [embed] });
             }
 
@@ -58,53 +77,13 @@ module.exports = {
             if (!player.playing && !player.paused && !player.queue.size) {
                 player.play();
 
-                // 再生が開始されたら経過時間の更新を開始する
                 const message = await interaction.reply({ embeds: [createEmbed(track)], fetchReply: true });
-                player.nowPlayingMessage = { id: message.id, channelId: message.channel.id, guildId: interaction.guildId };
+                nowPlayingMessages.set(guildId, { id: message.id, channelId: message.channel.id });
 
-                // 開始時間を記録し、定期的に経過時間を更新する処理を設定
-                const startTime = Date.now();
-                const updateInterval = 5000;
-
-                const updateEmbed = () => {
-                    const elapsedTime = Date.now() - startTime;
-                    const elapsedDuration = formatDuration(elapsedTime);
-
-                    // 経過時間を埋め込みに反映
-                    const updatedEmbed = createEmbed(track, elapsedDuration);
-                    message.edit({ embeds: [updatedEmbed] });
-
-                    // 再生が終了したら終了
-                    if (elapsedTime >= track.duration) {
-                        clearInterval(interval);
-                    }
-                };
-
-                // 定期的に更新するインターバルを設定
-                const interval = setInterval(updateEmbed, updateInterval);
-
-                // playerオブジェクトにインターバルを保存しておく
-                player.updateInterval = interval;
-            } else {
-                const embed = new MessageEmbed()
-                    .setColor('GREEN')
-                    .setAuthor({ name: 'キューに追加', iconURL: 'https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/quue.gif' })
-                    .setDescription(`キューに追加：**[${track.title}](${track.uri})**`)
-                    .addFields(
-                        { name: 'アップロード者', value: track.author || '不明', inline: true },
-                        { name: '再生時間', value: formatDuration(track.duration), inline: true }
-                    );
-
-                if (track.thumbnail) {
-                    embed.setThumbnail(track.thumbnail);
-                } else {
-                    embed.setThumbnail('https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/speaker.gif');
-                }
-
-                interaction.reply({ embeds: [embed] });
+                monitorVoiceChannel(player, interaction.client);
             }
         } catch (error) {
-            console.error('An error occurred:', error);
+            console.error('エラーが発生しました:', error);
             const embed = new MessageEmbed()
                 .setColor('RED')
                 .setAuthor({ name: 'エラー', iconURL: 'https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/error1.gif' })
@@ -114,39 +93,59 @@ module.exports = {
     },
 };
 
-// Embed 作成関数
-function createEmbed(track, elapsedDuration = '0:00:00') {
+function createEmbed(track) {
     return new MessageEmbed()
         .setColor('GREEN')
         .setAuthor({ name: '再生中', iconURL: 'https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/play.gif' })
         .setDescription(`再生中：**[${track.title}](${track.uri})**`)
         .addFields(
             { name: 'アップロード者', value: track.author || '不明', inline: true },
-            {
-                name: '経過時間(5秒ごと) / 動画の長さ',
-                value: `${elapsedDuration} / ${formatDuration(track.duration)}`,
-                inline: true
-            }
+            { name: '長さ', value: formatDuration(track.duration / 1000) }
         )
         .setThumbnail(track.thumbnail || 'https://b63bcd29-12c1-431c-a8ea-ba18d718ddb2-00-1yjzgqvntiwjd.pike.replit.dev/img/speaker.gif');
 }
 
-async function startUpdatingElapsedTime(player, track, interaction) {
-    const startTime = Date.now();
-    const updateInterval = 5000;
+function formatDuration(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
 
-    const updateEmbed = () => {
-        const elapsedTime = Date.now() - startTime;
-        const elapsedDuration = formatDuration(elapsedTime);
+    if (hours > 0) {
+        return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    } else {
+        return `${minutes}:${secs.toString().padStart(2, '0')}`;
+    }
+}
 
-        const updatedEmbed = createEmbed(track, elapsedDuration);
-        player.nowPlayingMessage.channel.send({ embeds: [updatedEmbed] });
+function monitorVoiceChannel(player, client) {
+    client.on('voiceStateUpdate', (oldState, newState) => {
+        if (oldState.guild.id !== player.guild) return;
+        if (oldState.channelId !== newState.channelId) {
+            if (oldState.channel && oldState.channel.members.size === 1 && oldState.channel.members.has(client.user.id)) {
+                const botPlayer = client.manager.players.get(player.guild);
+                if (botPlayer) {
+                    botPlayer.stop();
+                    botPlayer.destroy();
 
-        if (elapsedTime >= track.duration) {
-            clearInterval(interval);
+                    const nowPlaying = nowPlayingMessages.get(player.guild);
+                    if (nowPlaying) {
+                        const channel = client.channels.cache.get(nowPlaying.channelId);
+                        if (channel) {
+                            const embed = new MessageEmbed()
+                                .setColor('RED')
+                                .setTitle('離脱')
+                                .setDescription('VCに誰もいなくなったため、自動で退出しました。');
+
+                            channel.send({ embeds: [embed] });
+                        } else {
+                            console.error(`チャンネルが見つかりませんでした: ${nowPlaying.channelId}`);
+                        }
+                    } else {
+                        console.error('nowPlayingMessagesからの情報が取得できませんでした');
+                    }
+                    nowPlayingMessages.delete(player.guild);
+                }
+            }
         }
-    };
-
-    const interval = setInterval(updateEmbed, updateInterval);
-    player.updateInterval = interval;
+    });
 }

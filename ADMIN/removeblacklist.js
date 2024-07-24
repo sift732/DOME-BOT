@@ -14,11 +14,11 @@ module.exports = {
                 .setName('user')
                 .setDescription('ユーザーをブラックリストから削除します')
                 .addUserOption(option =>
-                    option.setName('target')
+                    option.setName('ターゲット')
                         .setDescription('ブラックリストから削除するユーザー')
                         .setRequired(true))
                 .addStringOption(option =>
-                    option.setName('serverid')
+                    option.setName('server_id')
                         .setDescription('対象のサーバーID')
                         .setRequired(true)))
         .addSubcommand(subcommand =>
@@ -26,7 +26,7 @@ module.exports = {
                 .setName('server')
                 .setDescription('サーバーをブラックリストから削除します')
                 .addStringOption(option =>
-                    option.setName('serverid')
+                    option.setName('server_id')
                         .setDescription('ブラックリストから削除するサーバーID')
                         .setRequired(true))),
 
@@ -43,8 +43,8 @@ module.exports = {
         }
 
         if (subcommand === 'user') {
-            const user = interaction.options.getUser('target');
-            const serverId = interaction.options.getString('serverid');
+            const user = interaction.options.getUser('ターゲット');
+            const serverId = interaction.options.getString('server_id');
 
             try {
                 const result = await removeUserFromBlacklist(user.id, serverId);
@@ -65,7 +65,7 @@ module.exports = {
                 await interaction.reply({ embeds: [embed] });
             }
         } else if (subcommand === 'server') {
-            const serverId = interaction.options.getString('serverid');
+            const serverId = interaction.options.getString('server_id');
 
             try {
                 const result = await removeServerFromBlacklist(serverId);

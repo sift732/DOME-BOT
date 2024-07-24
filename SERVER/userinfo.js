@@ -7,12 +7,12 @@ module.exports = {
         .setName('server_userinfo')
         .setDescription('ユーザーの情報を表示します。')
         .addUserOption(option =>
-            option.setName('target')
+            option.setName('ユーザー')
                 .setDescription('情報を表示するユーザー')
                 .setRequired(true)
         ),
     async execute(interaction) {
-        const targetUser = interaction.options.getMember('target');
+        const targetUser = interaction.options.getMember('ユーザー');
 
         try {
             const userRoles = targetUser.roles.cache

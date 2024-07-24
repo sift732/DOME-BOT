@@ -6,13 +6,13 @@ module.exports = {
         .setName('music_volume')
         .setDescription('音楽の音量を調整します')
         .addIntegerOption(option => 
-            option.setName('level')
+            option.setName('レベル')
                 .setDescription('音量のレベル (1-100)')
                 .setRequired(true)
         ),
 
     async execute(interaction) {
-        const volumeLevel = interaction.options.getInteger('level');
+        const volumeLevel = interaction.options.getInteger('レベル');
         const guildId = interaction.guildId;
         const manager = interaction.client.manager;
 

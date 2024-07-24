@@ -1,0 +1,37 @@
+# 環境設定ファイル
+.env
+
+# プラグインディレクトリ
+./pluguins/
+
+# データベースファイル
+*.db
+
+# アプリケーション設定ファイル
+application.yml
+
+# スクリプトファイル
+check.sh
+lavalink.sh
+run.sh
+
+# ジップファイル
+dome-bot.zip
+
+# Lavalink サーバーの JAR ファイル
+Lavalink.jar
+
+# ノードモジュール
+node_modules/
+
+# ログファイル
+deploy.log
+
+# その他
+commands.json
+db.js
+package.json
+package-lock.json
+reregister.js
+COMMANDS.json
+COMMANDS

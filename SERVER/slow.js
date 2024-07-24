@@ -6,12 +6,12 @@ module.exports = {
         .setName('server_slow')
         .setDescription('チャンネルの低速モードを設定します。')
         .addIntegerOption(option =>
-            option.setName('seconds')
+            option.setName('秒')
                 .setDescription('低速モードの秒数')
                 .setRequired(true)
         )
         .addStringOption(option =>
-            option.setName('scope')
+            option.setName('範囲')
                 .setDescription('適用範囲を選択してください。')
                 .setRequired(true)
                 .addChoices(
@@ -19,8 +19,8 @@ module.exports = {
                     { name: '全て', value: 'all' },
                 )),        
     async execute(interaction) {
-        const seconds = interaction.options.getInteger('seconds') || 3;
-        const scope = interaction.options.getString('scope');
+        const seconds = interaction.options.getInteger('秒') || 3;
+        const scope = interaction.options.getString('範囲');
 
         if (!interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             const errorEmbed = new MessageEmbed()

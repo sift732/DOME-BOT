@@ -14,7 +14,6 @@ module.exports = {
                 .setDescription('メッセージを削除する特定のユーザー')
                 .setRequired(false)),
     async execute(interaction) {
-        // 管理者権限の確認
         if (!interaction.member.permissions.has('ADMINISTRATOR')) {
             const embed = new MessageEmbed()
                 .setColor('#ff0000')

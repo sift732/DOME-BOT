@@ -6,7 +6,7 @@ module.exports = {
         .setName('server_unslow')
         .setDescription('チャンネルの低速モードを解除します。')
         .addStringOption(option =>
-            option.setName('scope')
+            option.setName('範囲')
                 .setDescription('解除する対象を選択してください。')
                 .setRequired(true)
                 .addChoices(
@@ -15,7 +15,7 @@ module.exports = {
                 )
         ),
     async execute(interaction) {
-        const scope = interaction.options.getString('scope');
+        const scope = interaction.options.getString('範囲');
         const guild = interaction.guild;
 
         if (!interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {

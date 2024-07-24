@@ -9,17 +9,13 @@ module.exports = {
     async execute(interaction) {
         try {
             const guild = interaction.guild;
-
-            // ロールのメンションを含むテキストを作成
             const roleMentions = guild.roles.cache
                 .sort((a, b) => b.position - a.position)
                 .map(role => role.toString())
                 .join(', ');
 
-            // サーバーのアイコンURL
             const serverIcon = guild.iconURL({ dynamic: true }) || 'アイコンなし';
 
-            // Embedの作成
             const serverEmbed = new MessageEmbed()
                 .setColor('#0099ff')
                 .setTitle(`サーバー情報 - ${guild.name}`)
@@ -47,7 +43,6 @@ module.exports = {
     },
 };
 
-// メンバーのステータス数をカウントするヘルパー関数
 function countMemberStatus(guild) {
     const statusCounts = {
         online: 0,
@@ -57,7 +52,7 @@ function countMemberStatus(guild) {
     };
     guild.members.cache.forEach(member => {
         if (member.user.bot) return;
-        const status = member.presence?.status || 'offline'; // プレゼンスが取得できない場合は 'offline' とする
+        const status = member.presence?.status || 'offline';
         switch (status) {
             case 'online':
                 statusCounts.online++;

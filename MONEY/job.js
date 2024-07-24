@@ -108,7 +108,7 @@ module.exports = {
                 earnedMoney = getRandomInt(5000, 10000);
             } else {
                 // 成功時の通常の範囲（1から1000のランダムな金額）
-                earnedMoney = getRandomInt(1, 1000);
+                earnedMoney = getRandomInt(200, 1000);
             }
 
             // ユーザーのお金を更新

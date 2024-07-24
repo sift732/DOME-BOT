@@ -5,9 +5,9 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('server_avatar')
         .setDescription('指定したユーザーのアイコンを表示します')
-        .addUserOption(option => option.setName('user').setDescription('アイコンを表示するユーザー')),
+        .addUserOption(option => option.setName('ユーザー').setDescription('アイコンを表示するユーザー')),
     async execute(interaction) {
-        const user = interaction.options.getUser('user') || interaction.user;
+        const user = interaction.options.getUser('ユーザー') || interaction.user;
         const avatarUrl = user.displayAvatarURL({ dynamic: true, size: 1024 });
 
         const embed = new MessageEmbed()

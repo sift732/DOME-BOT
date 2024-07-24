@@ -33,7 +33,7 @@ module.exports = {
         .setName('money_now')
         .setDescription('所持しているお金を表示します')
         .addUserOption(option =>
-            option.setName('user')
+            option.setName('ユーザー')
                 .setDescription('お金を表示したいユーザー')
                 .setRequired(false)
         ),
@@ -41,7 +41,7 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply();
 
-        const user = interaction.options.getUser('user') || interaction.user;
+        const user = interaction.options.getUser('ユーザー') || interaction.user;
         const userId = user.id;
 
         try {
