@@ -1,7 +1,7 @@
 # DOME-BOT
 __使用モジュール__
 ```
-Discord.js@13
+Discord.js@lasted
 Discordjs/reset
 Discordjs/voice
 ```
