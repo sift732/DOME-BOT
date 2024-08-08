@@ -7,9 +7,18 @@ const logTypes = {
     warning: chalk.yellow
 };
 
+const formatTimestamp = () => {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+};
+
 const log = (type, message) => {
     const color = logTypes[type] || chalk.white;
-    console.log(color(message));
+    const timestamp = formatTimestamp();
+    console.log(color(`[${timestamp}] [${type.toUpperCase()}] ${message}`));
 };
 
 module.exports = { log };
